@@ -48,6 +48,9 @@ public class GameActivity extends Activity {
     private Button goToMap;
     private ArrayAdapter<String> listAdapter;
     private static boolean isStateChanged = false;
+    public static boolean minesweeperDone = false;
+    public static boolean sinkToSwimDone = false;
+    public static boolean vocabMatchDone = false;
 
     public GameActivity() {
         gameActivityInstance = this;
@@ -73,6 +76,11 @@ public class GameActivity extends Activity {
         scenarioNameTextView = (TextView) findViewById(R.id.scenarioNameEditText);
         listAdapter = new ArrayAdapter<>(this, R.layout.simplerow, new ArrayList<String>());
         answers = new ArrayList<>();
+        
+        if (minesweeperDone || sinkToSwimDone || vocabMatchDone) {
+            minigameDone();
+        }
+        
         scene = getmDbHandler().getScenario();
         findViewById(R.id.root).setBackground(getResources().getDrawable(PowerUpUtils.SCENARIO_BACKGROUNDS[scene.getId()-1]));
         goToMap = (Button) findViewById(R.id.continueButtonGoesToMap);
@@ -157,15 +165,15 @@ public class GameActivity extends Activity {
                             updateQA();
                         } else if (answers.get(position).getNextQuestionID() == -1) {
                             updatePoints(position);
-                            getmDbHandler().setCompletedScenario(scene.getId());
+                            startActivity(new Intent(GameActivity.this, MinesweeperTutorials.class));
                             updateScenario(-1);
                         } else if (answers.get(position).getNextQuestionID() == -2) {
                             updatePoints(position);
-                            getmDbHandler().setCompletedScenario(scene.getId());
+                            startActivity(new Intent(GameActivity.this, SinkToSwimTutorials.class));
                             updateScenario(-2);
                         } else if (answers.get(position).getNextQuestionID() == -3){
                             updatePoints(position);
-                            getmDbHandler().setCompletedScenario(scene.getId());
+                            startActivity(new Intent(GameActivity.this, VocabMatchTutorials.class));
                             updateScenario(-3);
                         }
                         else {
@@ -266,5 +274,18 @@ public class GameActivity extends Activity {
 
     public void setmDbHandler(DatabaseHandler mDbHandler) {
         this.mDbHandler = mDbHandler;
+    }
+    
+    private void minigameDone() {
+        if (minesweeperDone) {
+            getmDbHandler().setCompletedScenario(5);
+            minesweeperDone = false;
+        } else if (sinkToSwimDone) {
+            getmDbHandler().setCompletedScenario(7);
+            sinkToSwimDone = false;
+        } else if (vocabMatchDone) {
+            getmDbHandler().setCompletedScenario(6);
+            vocabMatchDone = false;
+        }
     }
 }

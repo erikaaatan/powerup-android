@@ -9,6 +9,7 @@ import android.widget.TextView;
 import powerup.systers.com.R;
 import powerup.systers.com.ScenarioOverActivity;
 import powerup.systers.com.powerup.PowerUpUtils;
+import powerup.systers.com.GameActivity;
 
 public class ProsAndConsActivity extends AppCompatActivity {
 
@@ -47,6 +48,7 @@ public class ProsAndConsActivity extends AppCompatActivity {
             Intent intent = new Intent(ProsAndConsActivity.this, ScenarioOverActivity.class);
             intent.putExtra(String.valueOf(R.string.scene), PowerUpUtils.MINESWEEP_PREVIOUS_SCENARIO);
             startActivity(intent);
+            GameActivity.minesweeperDone = true;
         }
     }
 

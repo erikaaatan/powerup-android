@@ -10,6 +10,7 @@ import android.widget.TextView;
 import powerup.systers.com.R;
 import powerup.systers.com.ScenarioOverActivity;
 import powerup.systers.com.powerup.PowerUpUtils;
+import powerup.systers.com.GameActivity;
 
 public class VocabMatchEndActivity extends AppCompatActivity {
 
@@ -35,5 +36,6 @@ public class VocabMatchEndActivity extends AppCompatActivity {
         Intent intent = new Intent(VocabMatchEndActivity.this, ScenarioOverActivity.class);
         finish();
         startActivity(intent);
+        GameActivity.vocabMatchDone = true;
     }
 }
